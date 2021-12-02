@@ -39,10 +39,7 @@ export default function Game() {
       }
       if (!squares[a] || !squares[b] || !squares[c]) {
         isDraw = false;
-        dispatch({
-          type: ACTIONS.DRAW,
-          payload: isDraw,
-        });
+      
       }
     }
 
@@ -55,6 +52,8 @@ export default function Game() {
     }
     return null;
   };
+
+  
 
   const handleClick = (i) => {
     const current = history[history.length - 1];
@@ -81,9 +80,18 @@ export default function Game() {
       : `Game Over`
     : "Next player is " + (playerXisNext ? "X" : "O");
 
+    const moveTo = (step) => {
+
+    dispatch({ type: ACTIONS.JUMP, payload: { step } });
+  };
+
   const moves = history.map((step, move) => {
-    const desc = move ? `Go to #${move}` : "Start the game";
-    return <li key={move}>{desc}</li>;
+    const desc = move ? "Go to #" + move : "Start the Game";
+    return (
+      <li key={move}>
+        <button className="bnt-move" onClick={() => moveTo(move)}>{desc}</button>
+      </li>
+    );
   });
 
   const renderInfo = () => {
@@ -102,19 +110,14 @@ export default function Game() {
         </div>
       );
     } else {
-      return (
-        <div className="container-info">
-          {renderButton()}
-        </div>
-      );
+      return <div className="container-info">{renderButton()}</div>;
     }
   };
   const reset = () => {
-   
-      dispatch({
-      type: ACTIONS.RESET
+    dispatch({
+      type: ACTIONS.RESET,
     });
-  }
+  };
 
   const renderButton = () => {
     if (showWinner) {
@@ -125,8 +128,6 @@ export default function Game() {
       return <button onClick={reset}>Restart</button>;
     }
   };
-
-
 
   return (
     <div className="container">

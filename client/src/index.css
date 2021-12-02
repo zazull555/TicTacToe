@@ -68,6 +68,9 @@ body {
 .board .square-container {
   width: 33%;
 }
+.bnt-move {
+  background-color: red;
+}
 .square {
   width: 95%;
   height: 200px;
